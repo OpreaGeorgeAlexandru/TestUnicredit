@@ -16,10 +16,16 @@ interface Stocable{
     String toDataBase();
 }
 
+/*
+This class is a reader
+*/
 class DataBase{
 
     private String content;
-
+    
+    /*
+    @param path The path to the file
+    */
     public DataBase(String path){
         content = "";
         getContentFromFile(path);
@@ -28,7 +34,10 @@ class DataBase{
     public  String getContent(){
         return content;
     }
-
+    /*
+    This function get the a files's content
+    @param path The path to the file
+    */
     private void getContentFromFile(String path){
         BufferedReader reader = null;
 
@@ -60,20 +69,28 @@ class Ticket implements Stocable{
     private String eventName;
     private int ticketNumber;
     private static int currentTicketNumber;
-
+    /*
+    Default constructor
+    */
     public Ticket(){
         user = "Unknow";
         eventName = "Unknow";
         ticketNumber = -1;
     }
-
+    /*
+    This constructor is used when we put a new ticket in server
+    @param user User name for the new ticket
+    @param eventName Event name
+    */
     public Ticket(String user, String eventName){
         this.user = user;
         this.eventName = eventName;
         currentTicketNumber ++;
         ticketNumber = currentTicketNumber;
     }
-
+    /*
+    This constructor is used when i read the ticket from data base
+    */
     public Ticket(String user,String eventName, int ticketNumber){
         this.user = user;
         this.eventName = eventName;
@@ -109,13 +126,20 @@ class Event implements Stocable{
     private String name;
     private String location;
     private String time;
-
+    /*
+    Default constructor for Event
+    */
     public Event(){
         name = "Unknow";
         location = "In the midle of nowhere";
         time = "01.01.1001";
     }
-
+    /*
+    Constructor for Event
+    @param name The event name
+    @param location The location of event
+    @param time The time when is the event
+    */
     public  Event(String name, String location, String time){
         this.name = name;
         this.location = location;
@@ -146,7 +170,13 @@ class Event implements Stocable{
 }
 
 public class Main {
-
+    
+    /*
+    This function update any data base
+    @param path The path to the file
+    @param elements The list of elements
+    @return Nothing
+    */
     private static void updateDataBase(String path, ArrayList<? extends Stocable> elements){
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
@@ -197,10 +227,15 @@ public class Main {
                 return tk;
             }
         }
-        //error
+        // error
         return null;
     }
-
+    /*
+    This function remove a ticket from database and list of tickets (tickets)
+    @param idString The id of ticket
+    @param tickets The list of tickets
+    @return String An error message if the ticket wasn't found
+    */
     private static String cancelTicket(String idString, ArrayList<Ticket> tickets){
 
         int id = Integer.parseInt(idString);
